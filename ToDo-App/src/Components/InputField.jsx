@@ -1,48 +1,34 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 function InputField({ onNewItem }) {
-  const [itemName, setItemName] = useState("");
-  const [itemDueDate, setItemDueDate] = useState("");
+  const todoNameElement = useRef();
+  const todoDateElement = useRef();
 
-  const handleNewName = (event) => {
-    setItemName(event.target.value);
-  };
-
-  const handleNewDueDate = (event) => {
-    setItemDueDate(event.target.value);
-  };
-
-  const handleAddButton = () => {
+  const handleAddButton = (event) => {
+    event.preventDefault();
+    const itemName = todoNameElement.current.value;
+    const itemDueDate = todoDateElement.current.value;
+    todoNameElement.current.value = "";
+    todoDateElement.current.value = "";
     onNewItem(itemName, itemDueDate);
-    setItemDueDate("");
-    setItemName("");
   };
 
   return (
     <div className="container text-center">
-      <div className="row">
+      <form className="row" onSubmit={handleAddButton}>
         <div className="col-6">
           <input
             type="text"
-            placeholder="Enter ToDo Here"
-            onChange={handleNewName}
-            value={itemName}></input>
+            ref={todoNameElement}
+            placeholder="Enter ToDo Here"></input>
         </div>
         <div className="col-4">
-          <input
-            type="date"
-            onChange={handleNewDueDate}
-            value={itemDueDate}></input>
+          <input type="date" ref={todoDateElement}></input>
         </div>
         <div className="col-2">
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={handleAddButton}>
-            Add
-          </button>
+          <button className="btn btn-success">Add</button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
