@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { TodoItemsContext } from "../Store/Todo-Items-Store";
 
-function InputField({ onNewItem }) {
+function InputField() {
+  const { addNewItem } = useContext(TodoItemsContext);
   const todoNameElement = useRef();
   const todoDateElement = useRef();
 
@@ -10,7 +12,7 @@ function InputField({ onNewItem }) {
     const itemDueDate = todoDateElement.current.value;
     todoNameElement.current.value = "";
     todoDateElement.current.value = "";
-    onNewItem(itemName, itemDueDate);
+    addNewItem(itemName, itemDueDate);
   };
 
   return (
